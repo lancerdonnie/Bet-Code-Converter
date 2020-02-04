@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="index.css" />
+  <title>Nigerian Bet Code Converter</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+    body {
+      font-family: Montserrat;
+      background-color: blanchedalmond;
+    }
+
+    h2,
+    h3 {
+      text-align: center;
+    }
+
+    input,
+    select,
+    button {
+      padding: 1rem;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background-color: #f44336;
+      color: white;
+    }
+
+    .conv {
+      text-align: center;
+      background-color: cornflowerblue;
+      width: 50%;
+      margin: 0 auto;
+      border-radius: 5px;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #ans {
+      display: none;
+      height: 100px;
+      background-color: #f44336;
+      color: white;
+      padding: 5px;
+    }
+
+    .spinner {
+      display: none;
+    }
+
+    .answer {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Bet Converter</h2>
+  <p class="conv">Can only convert the following markets. 1X, X, X2, 1, 2, 12</p>
+  <h3>Select bet</h3>
+  <div class="form">
+    <p>From:</p>
+    <select name="" id="from">
+      <option value="betking">betking</option>
+      <option value="bet9ja">bet9ja</option>
+    </select>
+    <p>To:</p>
+    <select name="" id="to">
+      <option value="betking">betking</option>
+      <option value="bet9ja">bet9ja</option>
+    </select>
+    <p>Betcode:</p>
+    <form id="form" action="">
+      <input id="inp" value="" type="text" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+  <div class="answer">
+    <span id="ans"></span>
+    <div class="spinner"><img src="spinner.gif" /></div>
+    <p class="">Please be patient. Two minutes max to convert</p>
+  </div>
+  <script defer>
+    const ele = document.querySelector('#form');
+    let from = document.querySelector('#from').value;
+    let to = document.querySelector('#to').value;
+    let code = document.querySelector('#inp').value;
+    let spinner = document.querySelector('.spinner');
+    let ans = '';
+    document.querySelector('#to').addEventListener('change', e => {
+      to = e.target.value;
+    });
+    document.querySelector('#from').addEventListener('change', e => {
+      from = e.target.value;
+    });
+    document.querySelector('#inp').addEventListener('change', e => {
+      code = e.target.value;
+    });
+    if (ele.addEventListener) {
+      ele.addEventListener(
+        'submit',
+        e => {
+          e.preventDefault();
+          document.querySelector('#ans').style.display = 'none';
+          spinner.style.display = 'block';
+          (async () => {
+            try {
+              let from = document.querySelector('#from').value;
+              let to = document.querySelector('#to').value;
+              let code = document.querySelector('#inp').value;
+              console.log(from, to, code);
+              if (from == 'bet9ja' && to == 'betking' && code) {
+                raw = await fetch(
+                  `https://us-central1-my-project-1565169782214.cloudfunctions.net/test-function/api?code=${code}`
+                );
+                ans = await raw.text();
+                raw2 = await fetch(
+                  `https://us-central1-my-project-1565169782214.cloudfunctions.net/betking/api?names=${ans}`
+                );
+                ans2 = await raw2.text();
+                spinner.style.display = 'none';
+                document.querySelector('#ans').innerText = ans2;
+                document.querySelector('#ans').style.display = 'inline';
+              } else if (from == 'betking' && to == 'bet9ja' && code) {
+                raw = await fetch(
+                  `https://us-central1-my-project-1565169782214.cloudfunctions.net/betkingbook/api?code=${code}`
+                );
+                ans = await raw.text();
+                raw2 = await fetch(
+                  `https://us-central1-my-project-1565169782214.cloudfunctions.net/bet9ja/api?names=${ans}`
+                );
+                ans2 = await raw2.text();
+                spinner.style.display = 'none';
+                document.querySelector('#ans').innerText = ans2;
+                document.querySelector('#ans').style.display = 'inline';
+              } else {
+                spinner.style.display = 'none';
+                document.querySelector('#ans').innerText =
+                  'Adjust your selection and try again';
+                document.querySelector('#ans').style.display = 'inline';
+              }
+            } catch (error) {
+              console.log(error);
+              spinner.style.display = 'none';
+              document.querySelector('#ans').innerText = 'Unable to convert';
+              document.querySelector('#ans').style.display = 'inline';
+            }
+          })();
+        },
+        false
+      );
+    }
+
+  </script>
+</body>
+
+</html>
