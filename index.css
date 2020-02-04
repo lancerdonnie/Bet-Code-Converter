@@ -14,3 +14,20 @@ input,
 select {
   padding: 1rem;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#ans {
+  display: none;
+  height: 100px;
+  background-color: blue;
+}
+
+.spinner {
+  display: none;
+}

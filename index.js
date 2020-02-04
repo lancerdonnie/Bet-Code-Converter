@@ -2,6 +2,7 @@ const ele = document.querySelector('#form');
 let from = document.querySelector('#from').value;
 let to = document.querySelector('#to').value;
 let code = document.querySelector('#inp').value;
+let spinner = document.querySelector('.spinner');
 let ans = '';
 document.querySelector('#to').addEventListener('change', e => {
   to = e.target.value;
@@ -18,6 +19,7 @@ if (ele.addEventListener) {
     e => {
       e.preventDefault();
       document.querySelector('#ans').style.display = 'none';
+      spinner.style.display = 'block';
       (async () => {
         try {
           let from = document.querySelector('#from').value;
@@ -33,8 +35,9 @@ if (ele.addEventListener) {
               `https://us-central1-my-project-1565169782214.cloudfunctions.net/betking/api?names=${ans}`
             );
             ans2 = await raw2.text();
+            spinner.style.display = 'none';
             document.querySelector('#ans').innerText = ans2;
-            document.querySelector('#ans').style.display = 'block';
+            document.querySelector('#ans').style.display = 'inline';
           } else if (from == 'betking' && to == 'bet9ja' && code) {
             raw = await fetch(
               `https://us-central1-my-project-1565169782214.cloudfunctions.net/betkingbook/api?code=${code}`
@@ -44,18 +47,22 @@ if (ele.addEventListener) {
               `https://us-central1-my-project-1565169782214.cloudfunctions.net/bet9ja/api?names=${ans}`
             );
             ans2 = await raw2.text();
+            spinner.style.display = 'none';
             document.querySelector('#ans').innerText = ans2;
-            document.querySelector('#ans').style.display = 'block';
+            document.querySelector('#ans').style.display = 'inline';
           } else {
+            spinner.style.display = 'none';
+
             document.querySelector('#ans').innerText =
               'You have done something wrong';
-            document.querySelector('#ans').style.display = 'block';
+            document.querySelector('#ans').style.display = 'inline';
           }
         } catch (error) {
           console.log(error);
+          spinner.style.display = 'none';
           document.querySelector('#ans').innerText =
             'We are sorry. Something went wrong';
-          document.querySelector('#ans').style.display = 'block';
+          document.querySelector('#ans').style.display = 'inline';
         }
       })();
     },
