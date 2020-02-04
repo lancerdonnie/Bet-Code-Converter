@@ -11,8 +11,23 @@ h3 {
 }
 
 input,
-select {
+select,
+button {
   padding: 1rem;
+}
+button {
+  cursor: pointer;
+  border: none;
+  background-color: #f44336;
+  color: white;
+}
+
+.conv {
+  text-align: center;
+  background-color: cornflowerblue;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
 }
 
 .form {
@@ -25,9 +40,21 @@ select {
 #ans {
   display: none;
   height: 100px;
-  background-color: blue;
+  background-color: #f44336;
+  color: white;
+  padding: 5px;
 }
 
 .spinner {
   display: none;
+}
+
+.answer {
+  text-align: center;
+  margin-top: 20px;
+
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
 }

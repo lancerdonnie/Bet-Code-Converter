@@ -52,16 +52,14 @@ if (ele.addEventListener) {
             document.querySelector('#ans').style.display = 'inline';
           } else {
             spinner.style.display = 'none';
-
             document.querySelector('#ans').innerText =
-              'You have done something wrong';
+              'Adjust your selection and try again';
             document.querySelector('#ans').style.display = 'inline';
           }
         } catch (error) {
           console.log(error);
           spinner.style.display = 'none';
-          document.querySelector('#ans').innerText =
-            'We are sorry. Something went wrong';
+          document.querySelector('#ans').innerText = 'Unable to convert';
           document.querySelector('#ans').style.display = 'inline';
         }
       })();
